@@ -125,13 +125,13 @@ namespace SimulationWPF
                     " " + neighs[i].Neighbourhood.Points[2]);
                 SimulationCanvas.Children.Remove(neighs[i].Neighbourhood);
             }
-            bw.RunWorkerAsync()
+
             DispatcherOperation disp = 
                 (await Task.Run(() => Application.Current.Dispatcher.BeginInvoke
            (
                DispatcherPriority.Normal,
                new Func<List<EpsilonNeighbourhood>>(MoveAllNeighs))));
-
+            if(disp.Wait() == DispatcherOperationStatus.Completed)
             neighs = (List<EpsilonNeighbourhood>)disp.Result;
             /*await Task.Run(() => Application.Current.Dispatcher.Invoke(
         () =>
