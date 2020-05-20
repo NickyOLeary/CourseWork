@@ -1,0 +1,82 @@
+﻿<Window x:Class="BeginningWPF.DrawnGraph"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BeginningWPF"
+        mc:Ignorable="d"
+        Title="DrawnGraph" Height="450" Width="800"
+        WindowStyle="None" WindowState="Maximized" ResizeMode="NoResize">
+    <Window.Resources>
+        <ControlTemplate TargetType="Button" x:Key="EllipseTemplate">
+            <Border x:Name="NewButton" CornerRadius="70" BorderBrush="Blue" 
+                    Background="{TemplateBinding Background}">
+                <ContentControl Content="{TemplateBinding Content}" 
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                Foreground="White">
+
+                </ContentControl>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Opacity" Value="0.8"></Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter TargetName="NewButton" Property="ItemsControl.Background" 
+                            Value="DarkGray"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid x:Name="Drawn" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ExitProgram" Background="Black" Foreground="White"
+                Grid.Column="1" Grid.Row="0" Click="ExitProgram_Click"
+                Template="{StaticResource EllipseTemplate}">
+            <ContentControl Content="Выйти из программы" VerticalAlignment="Center"
+                            HorizontalAlignment="Center"></ContentControl>
+        </Button>
+        <Button x:Name="DrawVertices" Background="DarkGreen" Foreground="White"
+                Grid.Column="1" Grid.Row="1" Click="DrawVertices_Click"
+                Template="{StaticResource EllipseTemplate}">
+            <ContentControl Content="Отмечаем вершины" VerticalAlignment="Center"
+                            HorizontalAlignment="Center"></ContentControl>
+        </Button>
+        <Button x:Name="DrawEdges" Background="Maroon" Foreground="White"
+                Grid.Column="1" Grid.Row="2" Click="DrawEdges_Click"
+                Template="{StaticResource EllipseTemplate}">
+            <ContentControl Content="Рисуем рёбра" VerticalAlignment="Center"
+                            HorizontalAlignment="Center"></ContentControl>
+        </Button>
+        <Button x:Name="FindSaturationTime" Background="DarkBlue" Foreground="White"
+                Grid.Column="1" Grid.Row="3" Click="FindSaturationTime_Click"
+                Template="{StaticResource EllipseTemplate}">
+            <ContentControl Content="Найти время насыщения" VerticalAlignment="Center"
+                            HorizontalAlignment="Center"></ContentControl>
+        </Button>
+        <Canvas x:Name="PlaceToDraw" Grid.Row="0" Grid.RowSpan="5" 
+                MouseLeftButtonDown="PlaceToDraw_MouseLeftButtonDown"
+                MouseLeftButtonUp="PlaceToDraw_MouseLeftButtonUp"
+                MouseMove="PlaceToDraw_MouseMove" Background="White"/>
+        <TextBox x:Name="EpsilonTextBox" Grid.Row="4" Grid.Column="1"
+                 TextWrapping="Wrap">
+            Введите в данное поле величину эпсилон-окрестности.
+        </TextBox>
+        <TextBox x:Name="StartVertexTextBox" Grid.Row="5" Grid.Column="1"
+                 TextWrapping="Wrap">
+            Введите в данное поле номер начальной вершины.
+        </TextBox>
+    </Grid>
+</Window>

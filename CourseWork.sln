@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulationWPF", "BeginningWPF\SimulationWPF.csproj", "{1B8C2BE4-0280-45B7-9298-2628B9E21AC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLib", "GraphLib\GraphLib.csproj", "{33EC8F28-23BC-4735-B0C0-093370E864C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B8C2BE4-0280-45B7-9298-2628B9E21AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8C2BE4-0280-45B7-9298-2628B9E21AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8C2BE4-0280-45B7-9298-2628B9E21AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8C2BE4-0280-45B7-9298-2628B9E21AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33EC8F28-23BC-4735-B0C0-093370E864C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33EC8F28-23BC-4735-B0C0-093370E864C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33EC8F28-23BC-4735-B0C0-093370E864C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33EC8F28-23BC-4735-B0C0-093370E864C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5E9C757-DD1D-4071-B306-1391D1854EDD}
+	EndGlobalSection
+EndGlobal
