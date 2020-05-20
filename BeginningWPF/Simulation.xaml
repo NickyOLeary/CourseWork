@@ -35,7 +35,7 @@
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Canvas x:Name="SimulationCanvas" Grid.Row="0" Grid.RowSpan="2"/>
+        <Canvas x:Name="SimulationCanvas" Grid.Row="0" Grid.RowSpan="3"/>
         <Button x:Name="ExitProgram" Background="Black" Foreground="White"
                 Grid.Column="1" Grid.Row="2" Click="ExitProgram_Click"
                 Template="{StaticResource EllipseTemplate}">

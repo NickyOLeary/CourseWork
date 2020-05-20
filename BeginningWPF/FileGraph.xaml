@@ -45,7 +45,7 @@
             <ContentControl Content="Получить граф" VerticalAlignment="Center"
                             HorizontalAlignment="Center"></ContentControl>
         </Button>
-        <TextBox x:Name="EpsilonTextBox" Grid.Row="0" Grid.ColumnSpan="2"
+        <TextBox x:Name="FilePathTextBox" Grid.Row="0" Grid.ColumnSpan="2"
                  TextWrapping="Wrap" FontSize="25">
             Введите в данное поле имя файла, из которого необходимо считать граф.
         </TextBox>

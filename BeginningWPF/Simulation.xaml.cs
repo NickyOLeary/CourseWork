@@ -1,6 +1,7 @@
 ﻿using System;
 using GraphLib;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,12 +30,14 @@ namespace SimulationWPF
         List<EpsilonNeighbourhood> neighs;
         double epsilon;
         DispatcherTimer tmr;
+        BackgroundWorker bw;
 
         public Simulation(List<Pair<int, double>>[] _graph,
             Vertex[] _drawnVertices, List<Edge>[] _drawnEdges,
             double _epsilon, int _startVertex)
         {
             InitializeComponent();
+            bw = new BackgroundWorker();
             graph = _graph;
             drawnVertices = _drawnVertices;
             drawnEdges = _drawnEdges;
@@ -122,13 +125,20 @@ namespace SimulationWPF
                     " " + neighs[i].Neighbourhood.Points[2]);
                 SimulationCanvas.Children.Remove(neighs[i].Neighbourhood);
             }
-            neighs = await Task.Run(() => Application.Current.Dispatcher.Invoke(MoveAllNeighs));
+            bw.RunWorkerAsync()
+            DispatcherOperation disp = 
+                (await Task.Run(() => Application.Current.Dispatcher.BeginInvoke
+           (
+               DispatcherPriority.Normal,
+               new Func<List<EpsilonNeighbourhood>>(MoveAllNeighs))));
+
+            neighs = (List<EpsilonNeighbourhood>)disp.Result;
             /*await Task.Run(() => Application.Current.Dispatcher.Invoke(
-                   () =>
-                   {
-                       foreach (EpsilonNeighbourhood neigh in neighs)
-                           SimulationCanvas.Children.Add(neigh.Neighbourhood);
-                   }));*/
+        () =>
+        {
+            foreach (EpsilonNeighbourhood neigh in neighs)
+                SimulationCanvas.Children.Add(neigh.Neighbourhood);
+        }));*/
             for (int i = 0; i < neighs.Count; i++)
             {
                 Trace.WriteLine("Add: " + neighs[i].EdgeIndexI + " " + neighs[i].EdgeIndexJ +

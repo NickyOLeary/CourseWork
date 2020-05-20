@@ -36,6 +36,45 @@ namespace SimulationWPF
             drawnVertices = new Vertex[0];
             drawnEdges = new List<Edge>[0];
         }
+        public DrawnGraph(List<Pair<int, double>>[] _graph)
+        {
+            InitializeComponent();
+            Random rnd = new Random();
+            PlaceToDraw.IsEnabled = true;
+            DrawVertices.IsEnabled = false;
+            graph = _graph;
+            amOfVertices = graph.Length;
+            drawnVertices = new Vertex[amOfVertices];
+            for (int i = 0; i < amOfVertices; i++)
+            {
+                drawnVertices[i] = new Vertex(
+                    rnd.Next(25, 500),
+                    rnd.Next(25, 500),
+                    i + 1);
+                PlaceToDraw.Children.Add(drawnVertices[i].Ring);
+                PlaceToDraw.Children.Add(drawnVertices[i].RingContent);
+            }
+            drawnEdges = new List<Edge>[amOfVertices];
+            int[,] amounts = new int[amOfVertices, amOfVertices];
+            for (int i = 0; i < amOfVertices; i++)
+            {
+                drawnEdges[i] = new List<Edge>();
+                for (int j = 0; j < graph[i].Count; j++, amOfEdges++)
+                {
+                    amounts[i, graph[i][j].First - 1]++;
+                    amounts[graph[i][j].First - 1, i]++;
+                    drawnEdges[i].Add(new Edge(
+                        new Point(drawnVertices[i].X, drawnVertices[i].Y),
+                        new Point(drawnVertices[graph[i][j].First - 1].X,
+                        drawnVertices[graph[i][j].First - 1].Y),
+                        amounts[i, graph[i][j].First - 1]));
+                    drawnEdges[i][j].Weight.Text = graph[i][j].Second.ToString();
+                    PlaceToDraw.Children.Add(drawnEdges[i][j].DrawnEdge);
+                    PlaceToDraw.Children.Add(drawnEdges[i][j].Arrow);
+                    PlaceToDraw.Children.Add(drawnEdges[i][j].Weight);
+                }
+            }
+        }
 
         private void ExitProgram_Click(object sender, RoutedEventArgs e)
         {

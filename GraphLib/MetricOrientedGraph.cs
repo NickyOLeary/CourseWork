@@ -33,52 +33,87 @@ namespace GraphLib
         public static List<Pair<int, double>>[] ReadGraphFromFile(
             string path)
         {
-            try
+            using (StreamReader sr = new StreamReader(path))
             {
-                using (StreamReader sr = new StreamReader(path))
+                string readedString;
+
+                int amountOfVertices;
+                if ((readedString = sr.ReadLine()) is null)
+                    throw new ArgumentException(
+                        "Количество строк в файле меньше, " +
+                        "чем требуемое. ");
+                if (!int.TryParse(readedString, out amountOfVertices))
+                    throw new ArgumentException(
+                        "Строка 1: количество вершин в графе должно " +
+                        "преобразовываться к целому числу. ");
+                if (amountOfVertices <= 0)
+                    throw new ArgumentException(
+                        "Строка 1: количество вершин в графе должно " +
+                        "быть положительным. ");
+                List<Pair<int, double>>[] graph =
+                    new List<Pair<int, double>>[amountOfVertices];
+                for (int i = 0; i < amountOfVertices; i++)
+                    graph[i] = new List<Pair<int, double>>();
+
+                int amountOfEdges;
+                if ((readedString = sr.ReadLine()) is null)
+                    throw new ArgumentException(
+                        "Количество строк в файле меньше, " +
+                        "чем требуемое. ");
+                if (!int.TryParse(readedString, out amountOfEdges))
+                    throw new ArgumentException(
+                        "Строка 2: количество рёбер в графе должно " +
+                        "преобразовываться к целому числу. ");
+                if (amountOfEdges <= 0)
+                    throw new ArgumentException(
+                        "Строка 2: количество рёбер в графе должно " +
+                        "быть положительным. ");
+
+                for (int i = 0; i < amountOfEdges; i++)
                 {
-                    int amountOfVertices;
-                    if (!int.TryParse(sr.ReadLine(),
-                        out amountOfVertices) ||
-                        amountOfVertices <= 0)
+                    if ((readedString = sr.ReadLine()) is null)
                         throw new ArgumentException(
-                            "Некорректный формат 1-й строке. ");
-                    List<Pair<int, double>>[] graph =
-                        new List<Pair<int, double>>[amountOfVertices];
+                            "Количество строк в файле меньше, " +
+                            "чем требуемое. ");
+                    string[] newEdge = readedString.Split();
+                    int arrowHead, arrowTail;
+                    double edgeWeight;
 
-                    int amountOfEdges;
-                    if (!int.TryParse(sr.ReadLine(),
-                        out amountOfEdges) ||
-                        amountOfEdges <= 0)
+                    if (newEdge.Length != 3)
                         throw new ArgumentException(
-                            "Некорректный формат 2-й строке. ");
-
-                    for (int i = 0; i < amountOfEdges; i++)
-                    {
-                        string[] newEdge = sr.ReadLine().Split();
-                        int arrowHead, arrowTail;
-                        double edgeSize;
-                        if (newEdge.Length != 3 ||
-                            int.TryParse(newEdge[0], out arrowHead) ||
-                            arrowHead < 1 ||
-                            arrowHead > amountOfVertices ||
-                            int.TryParse(newEdge[1], out arrowTail) ||
-                            arrowTail < 1 ||
-                            arrowTail > amountOfVertices ||
-                            double.TryParse(newEdge[2], out edgeSize) ||
-                            edgeSize < 1 || edgeSize > 100)
-                            throw new ArgumentException(
-                                $"Некорректный формат в {i + 2}-й строке. ");
-                        AddEdgeToGraph(graph, arrowHead,
-                            new Pair<int, double>(arrowTail, edgeSize));
-                    }
-                    return graph;
+                            $"Строка {i + 3}: после разделения строки " +
+                            "по пробелам должно получаться 3 " +
+                            "элемента. ");
+                    if (!int.TryParse(newEdge[0], out arrowHead))
+                        throw new ArgumentException(
+                            $"Строка {i + 3}: номер начальной вершины " +
+                            $"должен преобразовываться к целому числу. ");
+                    if (arrowHead < 1 || arrowHead > amountOfVertices)
+                        throw new ArgumentException(
+                            $"Строка {i + 3}: номер начальной вершины " +
+                            $"должены быть больше либо равен 1 и " +
+                            $"меньше либо равен количеству вершин в графе. ");
+                    if (!int.TryParse(newEdge[1], out arrowTail))
+                        throw new ArgumentException(
+                            $"Строка {i + 3}: номер конечной вершины " +
+                            $"должен преобразовываться к целому числу. ");
+                    if (arrowTail < 1 || arrowTail > amountOfVertices)
+                        throw new ArgumentException(
+                            $"Строка {i + 3}: номер конечной вершины " +
+                            $"должен быть больше либо равен 1 и " +
+                            $"меньше либо равен количеству вершин в графе. ");
+                    if (!double.TryParse(newEdge[2], out edgeWeight))
+                        throw new ArgumentException(
+                            $"Строка {i + 3}: вес ребра должен " +
+                            $"преобразовываться к действительному числу. ");
+                    if (edgeWeight < 1 || edgeWeight > 100)
+                        throw new ArgumentException(
+                            $"Строка {i + 3}: вес ребра должен быть " +
+                            $"больше либо равен 1 и меньше либо равен 100. ");
+                    AddEdgeToGraph(graph, arrowHead,
+                        new Pair<int, double>(arrowTail, edgeWeight));
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new IOException("Проблемы с чтением из файла: " +
-                    ex.Message);
+                return graph;
             }
         }
 
