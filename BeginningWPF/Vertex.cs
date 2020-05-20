@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace BeginningWPF
+namespace SimulationWPF
 {
     public class Vertex
     {

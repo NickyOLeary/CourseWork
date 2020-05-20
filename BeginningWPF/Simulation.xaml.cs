@@ -16,7 +16,7 @@ using System.Threading;
 using System.Windows.Threading;
 using System.Diagnostics;
 
-namespace BeginningWPF
+namespace SimulationWPF
 {
     /// <summary>
     /// Логика взаимодействия для Simulation.xaml

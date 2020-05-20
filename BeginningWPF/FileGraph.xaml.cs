@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace BeginningWPF
+namespace SimulationWPF
 {
     /// <summary>
     /// Логика взаимодействия для FileGraph.xaml
@@ -22,6 +22,16 @@ namespace BeginningWPF
         public FileGraph()
         {
             InitializeComponent();
+        }
+
+        private void GetGraph_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExitProgram_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
