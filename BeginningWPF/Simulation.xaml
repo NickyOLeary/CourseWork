@@ -48,5 +48,9 @@
             <ContentControl Content="Запустить моделирование" VerticalAlignment="Center"
                             HorizontalAlignment="Center"></ContentControl>
         </Button>
+        <TextBox x:Name="InfoTextBox" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"
+                 FontSize="20">
+            Время: 0
+        </TextBox>
     </Grid>
 </Window>

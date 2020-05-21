@@ -25,6 +25,7 @@ namespace SimulationWPF
         public int EdgeIndexJ { get; }
 
         public Polyline Neighbourhood { get; private set; }
+        int backPosition = 0, frontPosition = 1;
         double drawnEdgeLength, epsilon, coef;
         double delta1X, delta1Y, delta2X, delta2Y;
 
@@ -64,12 +65,12 @@ namespace SimulationWPF
             Neighbourhood.StrokeThickness = 5;
             Neighbourhood.Points = new PointCollection(
                 new Point[] { FirstPoint, startPoint, startPoint });
+            if (startPosition == 0)
+                frontPosition = 0;
         }
 
         public double MoveNeighbourhood()
         {
-            int frontPosition = PointPosition(Neighbourhood.Points[2]),
-                backPosition = PointPosition(Neighbourhood.Points[0]);
             Point nextFrontP = new Point(), nextBackP = new Point();
             if (frontPosition == 0 || frontPosition == 1)
             {
@@ -78,6 +79,7 @@ namespace SimulationWPF
                 if ((MiddlePoint.X - Neighbourhood.Points[2].X) *
                     (MiddlePoint.X - nextFrontP.X) < 0)
                 {
+                    frontPosition = 3;
                     double part = Math.Sqrt(
                         (MiddlePoint.X - nextFrontP.X) *
                         (MiddlePoint.X - nextFrontP.X) +
@@ -91,6 +93,7 @@ namespace SimulationWPF
                         part * FinalPoint.Y) / drawnEdgeLength;
                     if (drawnEdgeLength / 2 + part > epsilon)
                     {
+                        backPosition = 1;
                         nextBackP.X = 2 *
                             (((drawnEdgeLength / 2 + part - epsilon) * MiddlePoint.X +
                             (epsilon - part) * FirstPoint.X) / drawnEdgeLength);
@@ -100,12 +103,34 @@ namespace SimulationWPF
                     }
                     else
                     {
+                        backPosition = 0;
                         nextBackP = FirstPoint;
                     }
                     Neighbourhood.Points[1] = MiddlePoint;
                 }
+                else if ((MiddlePoint.X - Neighbourhood.Points[2].X) *
+                  (MiddlePoint.X - nextFrontP.X) == 0)
+                {
+                    frontPosition = 2;
+                    nextFrontP = MiddlePoint;
+                    Neighbourhood.Points[1] = MiddlePoint;
+                    //КСЮША меняет
+                    if (drawnEdgeLength / 2 <= epsilon)
+                        nextBackP = FirstPoint;
+                    else
+                    {
+                        nextBackP.X = 2 *
+                            ((drawnEdgeLength / 2 - epsilon) * MiddlePoint.X +
+                            (epsilon * FirstPoint.X) / drawnEdgeLength);
+                        nextBackP.Y = 2 *
+                            ((drawnEdgeLength / 2 - epsilon) * MiddlePoint.Y +
+                            (epsilon * FirstPoint.Y) / drawnEdgeLength);
+                    }
+                    //Поменяла
+                }
                 else
                 {
+                    frontPosition = 1;
                     double helper = Math.Sqrt(
                         (nextFrontP.X - FirstPoint.X) *
                         (nextFrontP.X - FirstPoint.X) +
@@ -114,6 +139,7 @@ namespace SimulationWPF
                     if (helper >
                         epsilon)
                     {
+                        backPosition = 1;
                         nextBackP.X = (epsilon * FirstPoint.X +
                             (helper - epsilon) * nextFrontP.X) / helper;
                         nextBackP.Y = (epsilon * FirstPoint.Y +
@@ -121,6 +147,7 @@ namespace SimulationWPF
                     }
                     else
                     {
+                        backPosition = 0;
                         nextBackP = FirstPoint;
                     }
                     Neighbourhood.Points[1] = nextFrontP;
@@ -136,9 +163,15 @@ namespace SimulationWPF
                 nextFrontP.Y = Neighbourhood.Points[2].Y + delta2Y;
                 if ((FinalPoint.X - Neighbourhood.Points[2].X) *
                     (FinalPoint.X - nextFrontP.X) <= 0)
+                {
+                    frontPosition = 4;
                     Neighbourhood.Points[1] = FinalPoint;
+                }
                 else
+                {
+                    frontPosition = 3;
                     Neighbourhood.Points[1] = nextFrontP;
+                }
                 double helper = Math.Sqrt(
                     (nextFrontP.X - MiddlePoint.X) *
                     (nextFrontP.X - MiddlePoint.X) +
@@ -146,11 +179,13 @@ namespace SimulationWPF
                     (nextFrontP.Y - MiddlePoint.Y));
                 if (helper + drawnEdgeLength / 2 <= epsilon)
                 {
+                    backPosition = 0;
                     nextBackP = FirstPoint;
                     Neighbourhood.Points[1] = MiddlePoint;
                 }
                 else if (helper > epsilon)
                 {
+                    backPosition = 3;
                     nextBackP.X = (epsilon * MiddlePoint.X +
                         (helper - epsilon) * nextFrontP.X) / helper;
                     nextBackP.Y = (epsilon * MiddlePoint.Y +
@@ -158,10 +193,12 @@ namespace SimulationWPF
                 }
                 else if (helper == epsilon)
                 {
+                    backPosition = 2;
                     nextBackP = MiddlePoint;
                 }
                 else
                 {
+                    backPosition = 1;
                     nextBackP.X = 2 *
                         ((drawnEdgeLength / 2 + helper - epsilon) * MiddlePoint.X +
                         (epsilon - helper) * FirstPoint.X) / drawnEdgeLength;
@@ -196,6 +233,7 @@ namespace SimulationWPF
                     if ((MiddlePoint.X - Neighbourhood.Points[0].X) *
                         (MiddlePoint.X - nextBackP.X) < 0)
                     {
+                        backPosition = 3;
                         double part = Math.Sqrt(
                             (MiddlePoint.X - nextBackP.X) *
                             (MiddlePoint.X - nextBackP.X) +
@@ -209,62 +247,38 @@ namespace SimulationWPF
                             part * FinalPoint.Y) / drawnEdgeLength;
                         Neighbourhood.Points[1] = FinalPoint;
                     }
+                    else if ((MiddlePoint.X - Neighbourhood.Points[0].X) *
+                        (MiddlePoint.X - nextBackP.X) == 0)
+                    {
+                        backPosition = 2;
+                        nextBackP = MiddlePoint;
+                        Neighbourhood.Points[1] = FinalPoint;
+                    }
                     else
+                    {
+                        backPosition = 1;
                         Neighbourhood.Points[1] = MiddlePoint;
+                    }
                 }
                 else
                 {
                     nextBackP.X = Neighbourhood.Points[0].X + delta2X;
                     nextBackP.Y = Neighbourhood.Points[0].Y + delta2Y;
                     Neighbourhood.Points[1] = FinalPoint;
-                    if (PointPosition(nextBackP) == -1)
+                    if ((FinalPoint.X - Neighbourhood.Points[0].X) *
+                        (FinalPoint.X - nextBackP.X) <= 0)
                     {
+                        backPosition = 4;
                         Neighbourhood.Points[1] = FinalPoint;
                         return -1;
                     }
+                    else
+                        backPosition = 3;
                 }
                 Neighbourhood.Points[0] = nextBackP;
                 Neighbourhood.Points[2] = FinalPoint;
                 return -2;
             }
         }//public double MoveNeighbourhood()
-
-        int PointPosition(Point p)
-        {
-            if (p.X == FirstPoint.X &&
-                p.Y == FirstPoint.Y) return 0;
-            if (p.X == MiddlePoint.X &&
-                p.Y == MiddlePoint.Y) return 2;
-            if (p.X == FinalPoint.X &&
-                p.Y == FinalPoint.Y) return 4;
-
-            double helper1 =
-                Math.Sqrt((p.X - FirstPoint.X) * (p.X - FirstPoint.X) +
-                (p.Y - FirstPoint.Y) * (p.Y - FirstPoint.Y)),
-                helper2 =
-                Math.Sqrt((p.X - MiddlePoint.X) * (p.X - MiddlePoint.X) +
-                (p.Y - MiddlePoint.Y) * (p.Y - MiddlePoint.Y)),
-                helper3 =
-                Math.Sqrt((MiddlePoint.X - FirstPoint.X) * (MiddlePoint.X - FirstPoint.X) +
-                (MiddlePoint.Y - FirstPoint.Y) * (MiddlePoint.Y - FirstPoint.Y)),
-                calcEps = 1;
-            if (helper1 + helper2 < helper3 + calcEps &&
-                helper1 + helper2 > helper3 - calcEps)
-                return 1;
-
-            helper1 =
-                Math.Sqrt((p.X - FinalPoint.X) * (p.X - FinalPoint.X) +
-                (p.Y - FinalPoint.Y) * (p.Y - FinalPoint.Y));
-            helper2 =
-                Math.Sqrt((p.X - MiddlePoint.X) * (p.X - MiddlePoint.X) +
-                (p.Y - MiddlePoint.Y) * (p.Y - MiddlePoint.Y));
-            helper3 =
-                Math.Sqrt((MiddlePoint.X - FinalPoint.X) * (MiddlePoint.X - FinalPoint.X) +
-                (MiddlePoint.Y - FinalPoint.Y) * (MiddlePoint.Y - FinalPoint.Y));
-            if (helper1 + helper2 < helper3 + calcEps &&
-                helper1 + helper2 > helper3 - calcEps)
-                return 3;
-            return -1;
-        }
     }
 }
