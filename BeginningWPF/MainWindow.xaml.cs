@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace SimulationWPF
 {
@@ -25,17 +12,32 @@ namespace SimulationWPF
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Кнопка для выхода из программы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitProgram_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Кнопка для перехода в форму считывания графа из файла.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FileChoice_Click(object sender, RoutedEventArgs e)
         {
             (new FileGraph()).Show();
             Close();
         }
 
+        /// <summary>
+        /// Кнопка для перехода в форму рисования графа.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawChoice_Click(object sender, RoutedEventArgs e)
         {
             (new DrawnGraph()).Show();

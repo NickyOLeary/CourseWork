@@ -37,6 +37,7 @@
             <RowDefinition Height="2*"/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
@@ -66,7 +67,7 @@
             <ContentControl Content="Найти время насыщения" VerticalAlignment="Center"
                             HorizontalAlignment="Center"></ContentControl>
         </Button>
-        <Canvas x:Name="PlaceToDraw" Grid.Row="0" Grid.RowSpan="6" 
+        <Canvas x:Name="PlaceToDraw" Grid.Row="0" Grid.RowSpan="7" 
                 MouseLeftButtonDown="PlaceToDraw_MouseLeftButtonDown"
                 MouseLeftButtonUp="PlaceToDraw_MouseLeftButtonUp"
                 MouseMove="PlaceToDraw_MouseMove" Background="White"/>
@@ -77,6 +78,10 @@
         <TextBox x:Name="StartVertexTextBox" Grid.Row="5" Grid.Column="1"
                  TextWrapping="Wrap">
             Введите в данное поле номер начальной вершины.
+        </TextBox>
+        <TextBox x:Name="FilePathTextBox" Grid.Row="6" Grid.Column="1"
+                 TextWrapping="Wrap">
+            Введите в данной поле путь для записи графа в файл.
         </TextBox>
     </Grid>
 </Window>

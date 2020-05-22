@@ -19,7 +19,7 @@
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Opacity" Value="0.8"></Setter>
+                    <Setter Property="Opacity" Value="0.7"></Setter>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -36,7 +36,7 @@
         <TextBlock x:Name="ChoiceInfo" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap"
                    Background="White" Foreground="Black" FontSize="30"
                    VerticalAlignment="Center" HorizontalAlignment="Center">
-            Выберете способ задать граф
+            Выберите способ задать граф
         </TextBlock>
         <Button x:Name="ExitProgram" Background="Black" Foreground="White" 
                 Grid.Column="1" Grid.Row="0" FontSize="30" Click="ExitProgram_Click"

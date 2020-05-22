@@ -1,17 +1,7 @@
 ﻿using System;
 using GraphLib;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SimulationWPF
 {
@@ -25,30 +15,43 @@ namespace SimulationWPF
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Кнопка для попытки считывания графа из файла (путь взят 
+        /// из <see cref="FilePathTextBox"/>) для перехода в 
+        /// форму рисования.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GetGraph_Click(object sender, RoutedEventArgs e)
         {
+            //Блокируем запись в FilePathTextBox на время чтения графа.
             FilePathTextBox.IsEnabled = false;
             List<Pair<int, double>>[] graph;
             try
             {
-                graph =
-                    MetricOrientedGraph.ReadGraphFromFile(
+                graph = MetricOrientedGraph.ReadGraphFromFile(
                         FilePathTextBox.Text);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("При попытке получить граф из файла \"" +
                     FilePathTextBox.Text + "\" возникло искючение типа " +
-                    ex.GetType() + ": \"" + Environment.NewLine +
+                    ex.GetType() + ": " + Environment.NewLine + "\"" +
                     ex.Message + "\". ");
-
+                //Разблокируем, так как придётся опять читать.
                 FilePathTextBox.IsEnabled = true;
                 return;
             }
+            //Переходим в форму рисования графа.
             (new DrawnGraph(graph)).Show();
             Close();
         }
 
+        /// <summary>
+        /// Кнопка для выхода из программы.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExitProgram_Click(object sender, RoutedEventArgs e)
         {
             Close();

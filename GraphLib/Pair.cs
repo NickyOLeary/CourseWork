@@ -1,11 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphLib
 {
+    /// <summary>
+    /// Класс, представляющий пару из 2-х 
+    /// элементов - первый типа <typeparamref name="T"/> и 
+    /// второй типа <typeparamref name="U"/>. 
+    /// </summary>
+    /// <typeparam name="T">
+    /// Тип для первого элемента в паре.
+    /// </typeparam>
+    /// <typeparam name="U">
+    /// Тип дл второго элемента в паре.
+    /// </typeparam>
     public class Pair<T, U> : IComparable<Pair<T, U>>
         where T : IComparable<T>, new()
         where U : IComparable<U>, new()
@@ -145,7 +152,7 @@ namespace GraphLib
         /// <see cref="Pair{T, U}"/>.
         /// </summary>
         /// <returns>
-        /// Строка, представляющая текущий объект типа <see cref="Pair{T, U}"/>.
+        /// Строку, представляющую текущий объект типа <see cref="Pair{T, U}"/>.
         /// </returns>
         public override string ToString()
         {
@@ -162,8 +169,14 @@ namespace GraphLib
         /// с текущим и возвращает целое число, отражающее положение 
         /// текущего объекта относительно других в сортировке. 
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        /// <param name="other">
+        /// Заданный объект для сравнения с текущим.
+        /// </param>
+        /// <returns>
+        /// 1 - если текущий объект стоит выше в сортировке;
+        /// (-1) - если текущий объект стоит ниже в сортировке;
+        /// 0 - если положение объектов в сортировке равнозначно.
+        /// </returns>
         public int CompareTo(Pair<T, U> other)
         {
             int result;
