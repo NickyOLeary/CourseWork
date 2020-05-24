@@ -9,12 +9,12 @@
         WindowStyle="None" WindowState="Maximized" ResizeMode="NoResize">
     <Window.Resources>
         <ControlTemplate TargetType="Button" x:Key="EllipseTemplate">
-            <Border CornerRadius="500" BorderBrush="Blue" Background="{TemplateBinding Background}">
+            <Border CornerRadius="500" BorderBrush="White" Background="{TemplateBinding Background}">
                 <ContentControl Content="{TemplateBinding Content}" 
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 Foreground="White">
-                    
+
                 </ContentControl>
             </Border>
             <ControlTemplate.Triggers>
@@ -39,7 +39,8 @@
             Выберите способ задать граф
         </TextBlock>
         <Button x:Name="ExitProgram" Background="Black" Foreground="White" 
-                Grid.Column="1" Grid.Row="0" FontSize="30" Click="ExitProgram_Click"
+                Grid.Column="1" Grid.Row="0" FontSize="30"
+                Click="ExitProgram_Click"
                 Template="{StaticResource EllipseTemplate}">
             <ContentControl Content="Выйти из программы" VerticalAlignment="Center"
                             HorizontalAlignment="Center"></ContentControl>
